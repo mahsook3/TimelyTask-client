@@ -1,0 +1,11 @@
+/* Location.css */
+
+.custom-marker {
+    position: relative;
+    z-index: 1000;
+  }
+
+.leaflet-marker-draggable{
+    display: none;
+}
+  
