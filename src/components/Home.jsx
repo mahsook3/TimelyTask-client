@@ -123,7 +123,7 @@ const Home = () => {
                 className="inline-flex justify-between items-center py-1 px-1 pr-4 mb-7 text-sm text-gray-700 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
                 role="alert"
               >
-                <span className="text-xs bg-customRed rounded-full text-white px-4 py-1.5 mr-3">
+                <span className="text-xs bg-customOrange rounded-full text-white px-4 py-1.5 mr-3">
                   New
                 </span>{" "}
                 <a
@@ -159,7 +159,7 @@ const Home = () => {
                 {/* Container for buttons */}
                 <a
                   href="#"
-                  className="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-white rounded-lg bg-customRed hover:bg-red-600 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
+                  className="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-customBlue rounded-lg bg-customOrange hover:bg-yellow-500 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
                   onClick={() => navigate("/signup")}
                 >
                   Get started
@@ -201,7 +201,7 @@ const Home = () => {
         <section className="py-14">
           <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
             <div className="max-w-xl space-y-3">
-              <h3 className="text-customRed font-semibold">Why TimelyTask?</h3>
+              <h3 className="text-customOrange font-semibold">Why TimelyTask?</h3>
               <p className="text-gray-800 text-3xl font-semibold sm:text-4xl">
               Tired of the complexities and frustrations of managing tasks and payments for your blue-collar workforce?
               </p>
@@ -229,7 +229,7 @@ const Home = () => {
                     key={idx}
                     className="space-y-3 border-t py-6 md:max-w-sm md:py-0 md:border-t-0 lg:border-l lg:px-12 lg:max-w-none"
                   >
-                    <div className="w-12 h-12 rounded-full border flex items-center justify-center text-customRed ">
+                    <div className="w-12 h-12 rounded-full border flex items-center justify-center text-customOrange bg-customBlue">
                       {item.icon}
                     </div>
                     <h4 className="text-gray-800 text-lg font-medium xl:text-xl">

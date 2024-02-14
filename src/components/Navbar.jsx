@@ -11,7 +11,8 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-base-100  bg-white">
+<div className="navbar bg-white sticky top-0 z-50 border-b-2 border-gray-300">
+    <div className="navbar bg-white">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -131,11 +132,12 @@ const Navbar = () => {
       <div className="navbar-end">
         <Link
           to="/login"
-          className="btn bg-customRed text-white hover:text-whit hover:bg-red-500"
+          className="btn bg-customBlue text-white hover:text-whit hover:bg-gray-500"
         >
           Get Start
         </Link>
       </div>
+    </div>
     </div>
   );
 };

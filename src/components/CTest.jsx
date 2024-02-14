@@ -1,725 +1,152 @@
-import defaultLogo from "../assets/logo/NearTreat.png";
-import {
-  Typography,
-  Avatar,
-  Rating,
-  Menu,
-  MenuItem,
-  MenuList,
-  MenuHandler,
-  Input,
-  Textarea,
-} from "@material-tailwind/react";
-import profile from "../assets/profile.png";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import PageNotFound from "./PageNotFound";
-import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faIndianRupeeSign,
-  faCircleCheck,
-} from "@fortawesome/free-solid-svg-icons";
-import { ImageModel } from "react-teachable-machine";
-import Webcam from "react-webcam";
+import { useEffect, useRef, useState } from "react"
 
-const Profile = () => {
-  const [details, setDetails] = useState("");
-  const [recipe, setRecipe] = useState("");
-  const [isForget, setIsForget] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState(null);
-  const [street, setStreet] = useState("");
-  const [city, setCity] = useState("");
-  const [district, setDistrict] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-  const [menuItems, setMenuItems] = useState([]);
-  const [prediction, setPrediction] = React.useState(null);
-  const [recipesearch, setRecipeSearch] = React.useState("");
+// Avtar with darpdown menu
+const AvatarMenue = () => {
 
-  const addToRecipe = () => {
-    if (prediction) {
-      setRecipe((prevRecipe) => {
-        return prevRecipe
-          ? `${prevRecipe}, ${prediction.className}`
-          : prediction.className;
-      });
-    }
-  };
+    const [state, setState] = useState(false)
+    const profileRef = useRef()
 
-  useEffect(() => {
-    if (details && details.recipes) {
-      // Split the recipes data and create an array of menu items with recipe names and initial prices
-      const recipes = details.recipes.split(",");
-      const menuItems = recipes.map((recipe, index) => ({
-        recipeName: recipe.trim(),
-        price: 0, // Initialize the price to 0 for each recipe
-      }));
-      setMenuItems(menuItems); // Update the state with the menu items
-    }
-  }, [details]);
+    const navigation = [
+        { title: "Dashboard", path: "javascript:void(0)" },
+        { title: "Analytics", path: "javascript:void(0)" },
+        { title: "Profile", path: "javascript:void(0)" },
+        { title: "Settings", path: "javascript:void(0)" },
+    ]
 
-  useEffect(() => {
-    try {
-      setDetails(JSON.parse(localStorage.getItem("user")));
-      // setRecipe(details.recipes);
-      if (details) {
-        fetch("https://neartreat-p34i.onrender.com/seller")
-          .then((response) => response.json())
-          .then((data) => {
-            const user = data.find(
-              (users) =>
-                users.email === details.email &&
-                users.password === details.password
-            );
 
-            if (user) {
-              localStorage.removeItem("user");
-              localStorage.setItem("user", JSON.stringify(user));
-              setDetails(JSON.parse(localStorage.getItem("user")));
-            } else {
-              console.log("Invalid credentials");
-            }
-          })
-          .catch((error) => {
-            console.log("Error:", error);
-          });
-      }
-    } catch (err) {
-      toast.warn("Error on server side.", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-  }, [recipe]);
-
-  async function handleRecipe(e) {
-    await fetch(`https://neartreat-p34i.onrender.com/seller/${details._id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ recipes: recipe }),
-    })
-      .then((data) => {
-        setRecipe("");
-        toast.success("Recipe Updated Successfully.", {
-          position: "top-center",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.warn("Error on server side.", {
-          position: "top-center",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      });
-  }
-
-  async function handlePassword(e) {
-    e.preventDefault();
-    setIsForget(false);
-    await fetch(`https://neartreat-p34i.onrender.com/seller/${details._id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ password }),
-    })
-      .then((data) => {
-        toast.success("Password Updated Successfully.", {
-          position: "top-center",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.warn("Password Not Updated.", {
-          position: "top-center",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      });
-  }
-
-  function handleDelete() {
-    try {
-      localStorage.removeItem("user");
-      setDetails("");
-      toast.success("Logout Successfully.", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      navigate("/login");
-    } catch (err) {
-      console.log(err);
-      toast.warn("Error on server side.", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-  }
-
-  async function handleLocation(e) {
-    e.preventDefault();
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
-          setCurrentLocation({ latitude, longitude });
-          await fetchLocationDetails(latitude, longitude); // Fetch full location details and update details.current_location
-        },
-        (error) => {
-          console.error("Error getting geolocation:", error);
+    useEffect(() => {
+        const handleDropDown = (e) => {
+            if (!profileRef.current.contains(e.target)) setState(false)
         }
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
-    }
-  }
+        document.addEventListener('click', handleDropDown)
+    }, [])
 
-  const fetchLocationDetails = async (latitude, longitude) => {
-    try {
-      const nominatimAPI = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
-
-      const response = await fetch(nominatimAPI);
-      const data = await response.json();
-
-      if (response.ok) {
-        const fullAddress = data.display_name || "";
-        const city = data.address.city || "";
-        const district = data.address.suburb || "";
-
-        const updatedLocation = `${fullAddress} ${city} ${district}`;
-
-        // Update location in the backend and also in the state
-        await fetch(
-          `https://neartreat-p34i.onrender.com/seller/${details._id}`,
-          {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              current_location: updatedLocation,
-              latitude: latitude,
-              longitude: longitude,
-              district: district,
-            }),
-          }
-        )
-          .then((result) => {
-            toast.success("Location Updated Successfully.", {
-              position: "top-center",
-              autoClose: 2000,
-              hideProgressBar: true,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-
-            // Update the current_location state
-            setDetails({
-              ...details,
-              current_location: updatedLocation,
-            });
-          })
-          .catch((err) =>
-            toast.warn("Location not updated Error..", {
-              position: "top-center",
-              autoClose: 2000,
-              hideProgressBar: true,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            })
-          );
-      } else {
-        console.error(
-          "Error getting location details:",
-          data.error || "Unknown error"
-        );
-      }
-    } catch (error) {
-      toast.warn("Error on getting Location ", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      console.error("Error getting location details:", error);
-    }
-  };
-
-  function calculateAverageRating(reviews) {
-    if (!reviews || reviews.length === 0) {
-      return 0;
-    }
-
-    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
-    console.log("Total Rating:", totalRating); // Log the total rating
-    const averageRating = totalRating / reviews.length;
-    console.log("Average Rating:", averageRating); // Log the calculated average rating
-    const scaledAverageRating = (averageRating / 5) * 4 + 1;
-    console.log("scaledAverageRating:", scaledAverageRating); // Log the calculated average rating
-
-    return scaledAverageRating;
-  }
-
-  const scaledAverageRating = calculateAverageRating(details.reviews);
-
-  const [value, setValue] = useState(0);
-
-  const decrement = () => {
-    setValue(value - 1);
-  };
-
-  const increment = () => {
-    setValue(value + 1);
-  };
-
-  // Handle price input change
-  const handlePriceChange = (e, index) => {
-    const newPrice = parseFloat(e.target.value);
-    if (!isNaN(newPrice)) {
-      const updatedMenuItems = [...menuItems];
-      updatedMenuItems[index].price = newPrice;
-      setMenuItems(updatedMenuItems);
-    }
-  };
-
-  // Handle form submission
-
-  const sendUpdatedPrices = async () => {
-    try {
-      const sellerId = details._id; // Replace with your seller's ID
-      const updatedPrices = {};
-
-      // Create an object with recipe names as keys and their prices as values
-      menuItems.forEach((menuItem) => {
-        updatedPrices[menuItem.recipeName] = menuItem.price;
-      });
-
-      const response = await fetch(
-        `https://neartreat-p34i.onrender.com/seller/${sellerId}`,
-        {
-          method: "PATCH", // Use PATCH or POST depending on your API
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            prices: updatedPrices,
-          }),
-        }
-      );
-
-      if (response.ok) {
-        console.log("Prices updated successfully");
-      } else {
-        console.error("Failed to update prices");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
-  const handleSubmit = async (e, index) => {
-    e.preventDefault();
-    await sendUpdatedPrices(); // Send updated prices to the server
-  };
-
-  return (
-    <>
-      <div className="navbar bg-base-100">
-        <div className="flex-1">
-          <a
-            onClick={() => navigate("/")}
-            className="btn btn-ghost normal-case text-xl"
-          >
-            NearTreat
-          </a>
-        </div>
-        <div className="flex-none">
-          <div className="dropdown dropdown-end">
-            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-              <div className="w-10 rounded-full">
-                <img
-                  src={details.image ? details.image : defaultLogo}
-                  alt={details.name}
-                />
-              </div>
-            </label>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-            >
-              <li>
-                <a className="justify-between">{details.name}</a>
-              </li>
-              <li>
-                <a onClick={handleDelete}>
-                  Logout
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="feather feather-log-out w-5 h-5"
-                  >
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                    <polyline points="16 17 21 12 16 7" />
-                    <line x1={21} y1={12} x2={9} y2={12} />
-                  </svg>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <link
-        href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-        rel="stylesheet"
-      />
-      <div className="container mx-auto p-4">
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="flex items-center justify-center">
-            <img
-              src={details.image ? details.image : defaultLogo}
-              alt={details.name}
-              className="rounded-full w-32 h-32"
-            />
-          </div>
-          <div className="mt-4 text-center">
-            <h4 className="text-xl font-semibold">{details.name}</h4>
-            <p className="text-gray-500 mb-2">{details.stall_type}</p>
-            <p className="text-gray-600">{details.current_location}</p>
-            <button
-              className="bg-customRed hover:bg-red-700 text-white px-4 py-2 rounded mt-2"
-              onClick={handleLocation}
-            >
-              Update Location
-            </button>
-          </div>
-        </div>
-
-        <div className="flex flex-col md:flex-row justify-between mt-6">
-          <div className="md:w-3/4 bg-white rounded-lg shadow-md p-6 md:mr-4 md:mb-0 mb-4">
-            <h6 className="text-sm font-semibold mb-2">Available Menu</h6>
-            <ul className="list-none">
-              <li className="mb-2">Menu: {details.recipes}</li>
-            </ul>
-            <div className="mb-6" style={{ zIndex: 5 }}>
-              <input
-                type="text"
-                className="border border-gray-300 rounded-md py-2 px-4 w-full bg-white text-gray-800 focus:outline-none focus:ring focus:border-blue-300 relative"
-                name="recipe"
-                placeholder="Enter the recipes"
-                value={recipe || recipesearch}
-                onChange={(e) => setRecipe(e.target.value)}
-              />
-              <Textarea
-                color="blue"
-                className="form_input"
-                name="recipe"
-                placeholder="Enter the recipes"
-                type="text"
-                value={recipe}
-                onChange={(e) => setRecipe(e.target.value)}
-              />
-              <div className="flex items-center">
-  <button
-    className="bg-customRed hover:bg-red-700 text-white px-4 py-2 rounded mt-4"
-    position="static"
-    zIndex="5"
-    onClick={handleRecipe}
-  >
-    Update Menu
-  </button>
-  <label
-    htmlFor="my_modal_7"
-    className="btn bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded ml-4 mt-4"
-  >
-    Use AI Preditor
-  </label>
-</div>
-              <input type="checkbox" id="my_modal_7" className="modal-toggle" />
-              <div className="modal" role="dialog">
-                <div className="modal-box">
-                <div className="container">
-      <Webcam height={600} width={600} />
-    </div>
-                  <div className="visibility: hidden">
-                    <ImageModel
-                      preview={false}
-                      size={200}
-                      interval={500}
-                      onPredict={(predictions) => {
-                        const topPrediction = predictions.reduce(
-                          (prev, current) => {
-                            return prev.probability > current.probability
-                              ? prev
-                              : current;
-                          }
-                        );
-
-                        setPrediction(topPrediction);
-                      }}
-                      model_url="https://teachablemachine.withgoogle.com/models/kvITyDm5l/"
+    return (
+        <div className="relative border-t lg:border-none">
+            <div className="">
+                <button ref={profileRef} className="hidden w-10 h-10 outline-none rounded-full ring-offset-2 ring-gray-200 lg:focus:ring-2 lg:block"
+                    onClick={() => setState(!state)}
+                >
+                    <img
+                        src="https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg"
+                        className="w-full h-full rounded-full"
                     />
-                  </div>
-                  {prediction && (
-                    <div>
-                      <p>Top prediction: {prediction.className}</p>
-                      <p>Probability: {prediction.probability * 100}</p>
-                      <button className="btn btn-wide" onClick={addToRecipe}>
-                        Add it to item
-                      </button>
-                    </div>
-                  )}
-                </div>
-                <label className="modal-backdrop" htmlFor="my_modal_7">
-                  Close
-                </label>
-              </div>
+                </button>
             </div>
-            <div className="relative overflow-x-auto">
-              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                  <tr>
-                    <th scope="col" className="px-6 py-3">
-                      Recipe name
-                    </th>
-
-                    <th scope="col" className="px-6 py-3">
-                      Price
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {menuItems.map((menuItem, index) => (
-                    <tr
-                      key={index}
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                    >
-                      <th
-                        scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                      >
-                        {menuItem.recipeName}
-                      </th>
-                      <td className="px-6 py-4">
-                        <form onSubmit={(e) => handleSubmit(e, index)}>
-                          <label htmlFor={`price-${index}`} className="sr-only">
-                            Enter the price for {menuItem.recipeName}
-                          </label>
-                          <div className="flex items-center px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700">
-                            <p
-                              type="button"
-                              className="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"
-                            >
-                              {/* Add an icon here if needed */}
-                            </p>
-                            <Textarea
-                              id={`price-${index}`}
-                              type="number"
-                              min="0"
-                              step="1"
-                              className="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-customRed focus:border-customRed dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-customRed dark:focus:border-customRed"
-                              placeholder={`Enter the price for ${menuItem.recipeName}...`}
-                              value={menuItem.price}
-                              onChange={(e) => handlePriceChange(e, index)}
-                            />
-                            <button
-                              type="submit"
-                              className="inline-flex justify-center p-2 text-customRed rounded-full cursor-pointer hover:bg-blue-100 dark:text-customRed dark:hover:bg-gray-600"
-                            >
-                              <svg
-                                className="w-5 h-5 rotate-90"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="currentColor"
-                                viewBox="0 0 18 20"
-                              >
-                                {/* Add your submit button icon here */}
-                              </svg>
-                            </button>
-                          </div>
-                        </form>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <>
-            {/* component */}
-
-            <div className="md:w-3/5 w-full px-4 md:px-10 flex flex-col gap-2 p-5 bg-white text-gray-800 shadow-md">
-              <h1 className="py-5 text-lg">Reviews</h1>
-
-              <div className="px-8 text-center">
-                <Typography variant="h6" className="mt-4">
-                  {details.name}
-                </Typography>
-                <Typography color="gray" className="mb-4 font-normal">
-                  {details.stall_type}
-                </Typography>
-                {/* Display the calculated average rating */}
-                <div className="flex items-center justify-center">
-                  {/* Render the appropriate number of filled stars */}
-                  {Array.from({ length: Math.floor(scaledAverageRating) }).map(
-                    (_, index) => (
-                      <svg
-                        key={index}
-                        className="w-4 h-4 text-yellow-300 mr-1"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="currentColor"
-                        viewBox="0 0 22 20"
-                      >
-                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                      </svg>
-                    )
-                  )}
-
-                  {/* Render the appropriate number of empty stars */}
-                  {Array.from({
-                    length: 5 - Math.floor(scaledAverageRating),
-                  }).map((_, index) => (
-                    <svg
-                      key={index}
-                      className="w-4 h-4 text-gray-300 mr-1 dark:text-gray-500"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 22 20"
-                    >
-                      <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                    </svg>
-                  ))}
-
-                  {/* Display the calculated scaled average rating */}
-                  <p className="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">
-                    {scaledAverageRating.toFixed(2)} out of 5
-                  </p>
-                </div>
-              </div>
-              {/* Item Container */}
-              <div className="flex flex-col gap-3 mt-14">
-                {/* Review Item 1 */}
-                {details.reviews ? (
-                  details.reviews.map((review, index) => (
-                    <div
-                      key={index}
-                      className="flex flex-col gap-4 bg-gray-100 p-4 rounded-md"
-                    >
-                      {/* Reviewer Info */}
-                      <div className="flex justify-between">
-                        <div className="flex gap-2">
-                          <div className="w-7 h-7 text-center rounded-full bg-red-500">
-                            {review.reviewer_name[0]}
-                          </div>
-                          <span>{review.reviewer_name}</span>
-                        </div>
-                        <div className="flex p-1 gap-1 text-orange-500">
-                          {/* Display stars based on the rating */}
-                          {Array.from({ length: review.rating }, (_, i) => (
-                            <ion-icon key={i} name="star" />
-                          ))}
-                        </div>
-                      </div>
-                      <div>{review.review_text}</div>
-                      <div className="flex justify-between">
-                        <span>
-                          {new Date(review.date).toLocaleDateString()}
-                        </span>
-                        {/* Display star rating as a visual element */}
-                        <div className="-ml-1 flex gap-0.5">
-                          {[1, 2, 3, 4, 5].map((star, index) => (
-                            <svg
-                              key={index}
-                              xmlns="http://www.w3.org/2000/svg"
-                              className={`h-5 w-5 ${
-                                star <= review.rating
-                                  ? "text-yellow-400"
-                                  : "text-gray-300"
-                              }`}
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                            >
-                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p>Reviews not available</p>
-                )}
-              </div>
-            </div>
-          </>
+            <ul className={`bg-white top-14 right-0 mt-6 space-y-6 lg:absolute lg:border lg:rounded-md lg:w-52 lg:shadow-md lg:space-y-0 lg:mt-0 ${state ? '' : 'lg:hidden'}`}>
+                {
+                    navigation.map((item, idx) => (
+                        <li key={idx}>
+                            <a className="block text-gray-600 hover:text-gray-900 lg:hover:bg-gray-50 lg:p-3" href={item.path}>
+                                {item.title}
+                            </a>
+                        </li>
+                    ))
+                }
+                <button className="block w-full text-justify text-gray-600 hover:text-gray-900 border-t py-3 lg:hover:bg-gray-50 lg:p-3">
+                    Logout
+                </button>
+            </ul>
         </div>
-      </div>
-    </>
-  );
-};
+    )
+}
 
-export default Profile;
+export default () => {
+
+    const [state, setState] = useState(false)
+
+    // Replace javascript:void(0) paths with your paths
+    const navigation = [
+        { title: "Pro version", path: "javascript:void(0)" },
+        { title: "Upgrade", path: "javascript:void(0)" },
+        { title: "Support", path: "javascript:void(0)" },
+    ]
+
+    const submenuNav = [
+        { title: "Overview", path: "javascript:void(0)" },
+        { title: "Integration", path: "javascript:void(0)" },
+        { title: "Billing", path: "javascript:void(0)" },
+        { title: "Transactions", path: "javascript:void(0)" },
+        { title: "Plans", path: "javascript:void(0)" },
+    ]
+
+
+    return (
+        <header className="text-base lg:text-sm">
+            <div className={`bg-white items-center gap-x-14 px-4 max-w-screen-xl mx-auto lg:flex lg:px-8 lg:static ${state ? "h-full fixed inset-x-0" : ""}`}>
+                <div className="flex items-center justify-between py-3 lg:py-5 lg:block">
+                    <a href="javascript:void(0)">
+                        <img
+                            src="https://www.floatui.com/logo.svg"
+                            width={120}
+                            height={50}
+                            alt="Float UI logo"
+                        />
+                    </a>
+                    <div className="lg:hidden">
+                        <button className="text-gray-500 hover:text-gray-800"
+                            onClick={() => setState(!state)}
+                        >
+                            {
+                                state ? (
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                                    </svg>
+                                ) : (
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                                        <path fillRule="evenodd" d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm8.25 5.25a.75.75 0 01.75-.75h8.25a.75.75 0 010 1.5H12a.75.75 0 01-.75-.75z" clipRule="evenodd" />
+                                    </svg>
+
+                                )
+                            }
+                        </button>
+                    </div>
+                </div>
+                <div className={`nav-menu flex-1 pb-28 mt-8 overflow-y-auto max-h-screen lg:block lg:overflow-visible lg:pb-0 lg:mt-0 ${state ? "" : "hidden"}`}>
+                    <ul className="items-center space-y-6 lg:flex lg:space-x-6 lg:space-y-0">
+                        <form onSubmit={(e) => e.preventDefault()} className='flex-1 items-center justify-start pb-4 lg:flex lg:pb-0'>
+                            <div className="flex items-center gap-1 px-2 border rounded-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                                <input
+                                    type="text"
+                                    placeholder="Search"
+                                    className="w-full px-2 py-2 text-gray-500 bg-transparent rounded-md outline-none"
+                                />
+                            </div>
+                        </form>
+                        {
+                            navigation.map((item, idx) => {
+                                return (
+                                    <li key={idx}>
+                                        <a href={item.path} className="block text-gray-700 hover:text-gray-900">
+                                            {item.title}
+                                        </a>
+                                    </li>
+                                )
+                            })
+                        }
+                        <AvatarMenue />
+                    </ul>
+                </div>
+            </div>
+            <nav className="border-b">
+                <ul className="flex items-center gap-x-3 max-w-screen-xl mx-auto px-4 overflow-x-auto lg:px-8">
+                    {
+                        submenuNav.map((item, idx) => {
+                            return (
+                                // Replace [idx == 0] with [window.location.pathname == item.path]
+                                <li key={idx} className={`py-1 ${idx == 0 ? "border-b-2 border-indigo-600" : ""}`}>
+                                    <a href={item.path} className="block py-2 px-3 rounded-lg text-gray-700 hover:text-gray-900 hover:bg-gray-100 duration-150">
+                                        {item.title}
+                                    </a>
+                                </li>
+                            )
+                        })
+                    }
+                </ul>
+            </nav>
+        </header>
+    )
+}

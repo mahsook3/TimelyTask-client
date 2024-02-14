@@ -45,7 +45,7 @@ const FeaturesCarousel = () => {
         <section className="py-14">
           <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
             <div className="max-w-xl space-y-3">
-              <h3 className="text-customRed font-semibold">Look at</h3>
+              <h3 className="text-customOrange font-semibold">Look at</h3>
               <p className="text-gray-800 text-3xl font-semibold sm:text-4xl">
                 Features That Delight:
               </p>
@@ -70,7 +70,7 @@ const FeaturesCarousel = () => {
         infinite
             items={features.map((item, idx) => (
               <div key={idx} className="space-y-3 ml-20 mr-10">
-                <div className="w-12 h-12 mx-auto bg-gray-100 text-customRed rounded-full flex items-center justify-center">
+                <div className="w-12 h-12 mx-auto bg-customBlue text-customOrange rounded-full flex items-center justify-center">
                   {item.icon}
                 </div>
                 <h4 className="text-lg text-gray-800 font-semibold">

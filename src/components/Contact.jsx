@@ -57,7 +57,7 @@ const Contact = () => {
         <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
           <div className="max-w-lg mx-auto gap-12 justify-between lg:flex lg:max-w-none">
           <div className="max-w-lg space-y-3">
-              <h3 className="text-red-600 font-semibold">Contact</h3>
+              <h3 className="text-customOrange font-semibold">Contact</h3>
               <p className="text-gray-800 text-3xl font-semibold sm:text-4xl">
                 Let us know how we can help
               </p>
@@ -85,7 +85,7 @@ const Contact = () => {
                     type="text"
                     required
                     name="from_name" // Placeholder "from_name" in the email template
-                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-red-600 shadow-sm rounded-lg"
+                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-customOrange shadow-sm rounded-lg"
                   />
                 </div>
                 <div>
@@ -94,7 +94,7 @@ const Contact = () => {
                     type="email"
                     required
                     name="to_name" // Placeholder "to_name" in the email template
-                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-red-600 shadow-sm rounded-lg"
+                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-customOrange shadow-sm rounded-lg"
                   />
                 </div>
                 <div>
@@ -103,7 +103,7 @@ const Contact = () => {
                     type="text"
                     required
                     name="subject" // Placeholder "subject" in the email template
-                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-red-600 shadow-sm rounded-lg"
+                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-customOrange shadow-sm rounded-lg"
                   />
                 </div>
                 <div>
@@ -111,10 +111,10 @@ const Contact = () => {
                   <textarea
                     required
                     name="message" // Placeholder "message" in the email template
-                    className="w-full mt-2 h-36 px-3 py-2 resize-none appearance-none bg-transparent outline-none border focus:border-red-600 shadow-sm rounded-lg"
+                    className="w-full mt-2 h-36 px-3 py-2 resize-none appearance-none bg-transparent outline-none border focus:border-customOrange shadow-sm rounded-lg"
                   ></textarea>
                 </div>
-                <button className="w-full px-4 py-2 text-white font-medium bg-red-600 hover:bg-red-500 active:bg-red-600 rounded-lg duration-150">
+                <button className="w-full px-4 py-2 text-white font-medium bg-customBlue hover:bg-customOrange active:bg-customBlue rounded-lg duration-150">
                   Submit
                 </button>
               </form>

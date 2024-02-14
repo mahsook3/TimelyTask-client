@@ -26,6 +26,8 @@ module.exports = {
         },
         customRed: '#D2042D',
         customYellow: "#f5bf38",
+        "customBlue": "#385a64",
+        "customOrange": "#ffc801",
       },
       fontFamily: {
         'body': [
@@ -65,5 +67,5 @@ module.exports = {
       },
     }
   },
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui"),require('@tailwindcss/forms')],
 };

@@ -108,7 +108,7 @@ export default () => {
             <ul className="grid gap-y-8 gap-x-12 sm:grid-cols-2 lg:grid-cols-3">
               {features.map((item, idx) => (
                 <li key={idx} className="space-y-3">
-                  <div className="w-12 h-12 mx-auto bg-red-50 text-red-600 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 mx-auto bg-customBlue text-customOrange rounded-full flex items-center justify-center">
                     {item.icon}
                   </div>
                   <h4 className="text-lg text-gray-800 font-semibold">
@@ -136,7 +136,7 @@ export default () => {
               </p>
               <a
                 href="/login"
-                className="mt-5 inline-flex items-center gap-x-2 font-medium text-red-600 dark:text-red-500"
+                className="mt-5 inline-flex items-center gap-x-2 font-medium text-customOrange dark:text-customBlue"
               >
                 Get Start, Now
                 <svg
@@ -161,7 +161,7 @@ export default () => {
               {/* Icon Block */}
               <div className="flex ">
                 {/* Icon */}
-                <span className="flex-shrink-0 inline-flex justify-center items-center w-[46px] h-[46px] rounded-full border border-gray-200 bg-white text-gray-800 shadow-sm mx-auto dark:bg-slate-900 dark:border-gray-700 dark:text-gray-200 bg-red-50 text-red-600">
+                <span className="flex-shrink-0 inline-flex justify-center items-center w-[46px] h-[46px] rounded-full border border-gray-200  shadow-sm mx-auto dark:bg-slate-900 dark:border-gray-700 dark:text-gray-200 bg-customBlue  text-customOrange">
                   <svg
                     className="w-5 h-5 "
                     xmlns="http://www.w3.org/2000/svg"
@@ -186,7 +186,7 @@ export default () => {
               {/* Icon Block */}
               <div className="flex">
                 {/* Icon */}
-                <span className="flex-shrink-0 inline-flex justify-center items-center w-[46px] h-[46px] rounded-full border border-gray-200 bg-white text-gray-800 shadow-sm mx-auto dark:bg-slate-900 dark:border-gray-700 dark:text-gray-200 bg-red-50 text-red-600">
+                <span className="flex-shrink-0 inline-flex justify-center items-center w-[46px] h-[46px] rounded-full border border-gray-200 shadow-sm mx-auto dark:bg-slate-900 dark:border-gray-700 dark:text-gray-200 bg-customBlue  text-customOrange">
                   <svg
                     className="w-5 h-5"
                     xmlns="http://www.w3.org/2000/svg"
@@ -211,7 +211,7 @@ export default () => {
               {/* Icon Block */}
               <div className="flex">
                 {/* Icon */}
-                <span className="flex-shrink-0 inline-flex justify-center items-center w-[46px] h-[46px] rounded-full border border-gray-200 bg-white text-gray-800 shadow-sm mx-auto dark:bg-slate-900 dark:border-gray-700 dark:text-gray-200 bg-red-50 text-red-600">
+                <span className="flex-shrink-0 inline-flex justify-center items-center w-[46px] h-[46px] rounded-full border border-gray-200   shadow-sm mx-auto dark:bg-slate-900 dark:border-gray-700 dark:text-gray-200 bg-customBlue  text-customOrange">
                   <svg
                     className="w-5 h-5"
                     xmlns="http://www.w3.org/2000/svg"

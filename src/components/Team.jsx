@@ -17,51 +17,63 @@ import Achievement from "./Achievement";
 
 
 const Team = () => {
-  const testimonials = [
-    {
-        avatar: "https://neartreat.in/static/media/1.f8ad4e8bf7c7f282d1b7.png",
-        name: "Mahsook M A",
-        title: "Founder of TimelyTask",
-        quote: "I'm Mohamed Shaik Mahsook M A, the developer behind this project."
-    }
-]
+    const teamMembers = [
+        {
+          name: "Mahsook M A",
+          role: "Founder of TimelyTask",
+          photoUrl: Mahsook,
+          linkedinUrl: "https://www.linkedin.com/in/mahsook/",
+    
+        }
+      ];
 
 const [currentTestimonial, setCurrentTestimonial] = useState(0)
 
   return (
     <>
       <Navbar />
-      <section className="py-14">
-            <div className="max-w-screen-xl mx-auto px-4 md:px-8">
-                <div className="max-w-3xl mx-auto text-center">
-                    <h3 className="text-indigo-600 font-semibold pb-6">Welcome to TimelyTask!</h3>
-                    <ul>
-                        {
-                            testimonials.map((item, idx) => (
-                                currentTestimonial == idx ? (
-                                    <li key={idx}>
-                                        <figure>
-                                            <blockquote>
-                                                <p className="text-gray-800 text-xl font-semibold sm:text-2xl">
-                                                    “{item.quote}“
-                                                </p>
-                                            </blockquote>
-                                            <div className="mt-6">
-                                                <img src={item.avatar} className="w-25 h-25 mx-auto rounded-full" />
-                                                <div className="mt-3">
-                                                    <span className="block text-gray-800 font-semibold">{item.name}</span>
-                                                    <span className="block text-gray-600 text-sm mt-0.5">{item.title}</span>
-                                                </div>
-                                            </div>
-                                        </figure>
-                                    </li>
-                                ) : ""
-                            ))
-                        }
-                    </ul>
-                </div>
-            </div>
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12">
+          <div className="text-center pb-12">
+            <h2 className="text-base font-bold text-customOrange">
+            Welcome to TimelyTask!
+            </h2>
+            <h1 className="font-bold text-3xl md:text-4xl lg:text-4xl font-heading text-customBlue">
+              Meet the Face Behind TimelyTask
+            </h1>
+          </div>
+          <div className="flex flex-wrap justify-center">
+          {teamMembers.map((member, index) => (
+  <div
+    key={index}
+    className="flex flex-col items-center bg-white rounded-lg p-6 m-4 space-y-4"
+  >
+    <img
+      className="object-center object-cover rounded-full h-40 w-40"
+      src={member.photoUrl}
+      alt="photo"
+    />
+    <div className="text-center">
+      <p className="text-xl text-gray-700 font-bold mb-2">
+        {member.name}
+      </p>
+      <p className="text-base text-gray-400 font-normal">
+        {member.role}
+      </p>
+      <a
+        href={member.linkedinUrl} // Use the LinkedIn URL from the teamMembers array
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-700 hover:text-blue-500"
+      >
+        <FontAwesomeIcon icon={faLinkedin} /> LinkedIn
+      </a>
+    </div>
+  </div>
+))}
+
+          </div>
         </section>
+
      
           <Footer />
     </>
