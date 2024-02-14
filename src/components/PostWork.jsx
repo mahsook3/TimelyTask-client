@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 export default function PostWork() {
   const [user, setUser] = useState(null);
 
@@ -41,32 +41,31 @@ export default function PostWork() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     // Check if user exists
     if (!user) {
       console.log("No user");
       return;
     }
-  
+
     // Send a PUT request to the backend
     fetch(`https://timelytask.onrender.com/users/${user._id}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
-        toast.success('Work posted successfully');
-        
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        toast.success("Work posted successfully");
       })
       .catch((error) => {
-        console.error('Error:', error);
-        toast.error('An error occurred. Please try again later.');
+        console.error("Error:", error);
+        toast.error("An error occurred. Please try again later.");
       });
-  
+
     // Reset form fields
     setFormData({
       workcategory: "",
@@ -199,27 +198,15 @@ export default function PostWork() {
               </div>
             </div>
             {/* Column 2 */}
+            {/* Content for column 2 */}
             <div className="bg-white p-4  rounded-md py-28">
-              {/* Content for column 2 */}
-              <div className="container mx-auto p-4 bg-white rounded-lg shadow-md">
-      <div className="flex flex-wrap items-center justify-between mb-4">
-        <div className="flex items-center mr-auto mb-4 md:mb-0">
-          
-        <h1 className="text-2xl font-bold text-gray-800">{user ? user.workcategory : 'Loading...'}</h1>        </div>
-        <div className="flex items-center space-x-2 md:flex-grow">
-        <span className="px-2 py-1 rounded-full bg-gray-200 text-gray-600">
-  {user && new Date(user.date).toLocaleDateString()}
-</span>
-          <span className="px-2 py-1 rounded-full bg-gray-200 text-gray-600">{user ? user.paymentamount : 'Loading...'}</span>
-        </div>
-      </div>
-      <div className="text-gray-700">
-        <p className="text-base lg:text-lg">
-        {user ? user.workdescription : 'Loading...'}
-        </p>
-      </div>
-    </div>
-            </div>
+  {/* Content for column 2 */}
+  <h2 className="text-2xl font-bold mb-4">Here is your current work</h2>
+  <p>{user ? user.workcategory : "No data available"}</p>
+  <p>{user ? user.workdescription : "No data available"}</p>
+  <p>{user ? user.paymentamount : "No data available"}</p>
+  <p>{user ? user.location : "No data available"}</p>
+</div>
           </div>
         </div>
       </div>

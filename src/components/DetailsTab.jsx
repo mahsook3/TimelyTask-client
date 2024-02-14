@@ -1,10 +1,87 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
+import { useRef } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import Map from "./Location";
 import Worker from "./WorkerDetails";
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+const AvatarMenu = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const userData = location.state || {}; 
+
+  const [state, setState] = useState(false);
+  const profileRef = useRef();
+  const navigation = [
+    { title: "Post Work", path: "/postwork" },
+    { title: "Your work", path: "/recivedworks" },
+  ];
+
+  useEffect(() => {
+    const handleDropDown = (e) => {
+      if (profileRef.current && !profileRef.current.contains(e.target))
+        setState(false);
+    };
+    document.addEventListener("click", handleDropDown);
+
+    return () => {
+      document.removeEventListener("click", handleDropDown);
+    };
+  }, []);
+
+  const Logout = () => {
+    // Remove the user data from local storage
+    localStorage.removeItem('user');
+  
+    // Redirect to the login page after logout
+    navigate("/login");
+  };
+
+  const goToPostWork = () => {
+    navigate("/postwork", { state: userData });
+  };
+
+  return (
+    <div className="relative border-t lg:border-none">
+      <div className="">
+        <button
+          ref={profileRef}
+          className="w-10 h-10 outline-none rounded-full ring-offset-2 ring-gray-200 lg:focus:ring-2"
+          onClick={() => setState(!state)}
+        >
+          <img
+            src="https://cdn1.iconfinder.com/data/icons/heroicons-ui/24/menu-512.png"
+            className="w-full h-full rounded-full"
+          />
+        </button>
+      </div>
+      <ul
+        className={`bg-white top-14 right-0 mt-6 space-y-6 lg:absolute lg:border lg:rounded-md lg:w-52 lg:shadow-md lg:space-y-0 ${
+          state ? "" : "hidden"
+        }`}
+      >
+        {navigation.map((item, idx) => (
+          <li key={idx}>
+            <a
+              className="block text-gray-600 hover:text-gray-900 lg:hover:bg-gray-50 lg:p-3"
+              href={item.path === "/postwork" ? "#" : item.path}
+              onClick={item.path === "/postwork" ? goToPostWork : null}
+            >
+              {item.title}
+            </a>
+          </li>
+        ))}
+        <button
+          className="block w-full text-justify text-gray-600 hover:text-gray-900 border-t py-3 lg:hover:bg-gray-50 lg:p-3"
+          onClick={Logout}
+        >
+          Logout
+        </button>
+      </ul>
+    </div>
+  );
+};
 
 export default () => {
 
@@ -124,13 +201,36 @@ export default () => {
 
   return (
     <>
-      <h1>Welcome, {user ? user.email : "Guest"}!</h1>
+      {/* Render Navbar and User Details */}
+      <div className="navbar bg-base-100">
+        <div className="flex-none">
+          <button className="btn btn-square btn-ghost">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              className="inline-block w-5 h-5 stroke-current"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <div className="flex-1">
+          <a className="btn btn-ghost text-xl">TimelyTask</a>
+        </div>
+        <div className="flex-none">
+          <AvatarMenu />
+        </div>
+      </div>
       <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-8">
         <div className="items-start justify-between md:flex">
             <div>
-                <h3 className="text-gray-800 text-2xl font-bold">
-                    Payments
-                </h3>
+                
             </div>
             <div className="items-center gap-x-3 mt-6 md:mt-0 sm:flex">
             <button

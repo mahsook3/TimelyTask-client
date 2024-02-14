@@ -1,9 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css'; // Import Leaflet CSS
 import icon from '../assets/icons/location.png'; // Import your custom icon
 
 function Map({ latitude, longitude,wname }) {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Retrieve the user data from local storage and parse it to an object
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    setUser(storedUser);
+  }, []);
   console.log(latitude,longitude,wname);
   useEffect(() => {
     // Create map instance
@@ -22,9 +29,11 @@ function Map({ latitude, longitude,wname }) {
       popupAnchor: [0, -32] // point from which the popup should open relative to the iconAnchor
     });
 
+const nameda = user ? user.name : "Work Location"
+
     // Add marker with custom icon
     L.marker([latitude, longitude], { icon: customIcon }).addTo(map)
-      .bindPopup(wname)
+      .bindPopup(nameda)
       .openPopup();
   }, []);
 

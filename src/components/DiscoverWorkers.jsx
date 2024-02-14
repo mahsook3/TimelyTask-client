@@ -10,7 +10,7 @@ const AvatarMenu = () => {
   const profileRef = useRef();
   const navigation = [
     { title: "Post Work", path: "/postwork" },
-    { title: "Your work", path: "javascript:void(0)" },
+    { title: "Your work", path: "/recivedworks" },
   ];
 
   useEffect(() => {
@@ -245,7 +245,12 @@ const DiscoverWorkers = ({userData}) => {
           <AvatarMenu />
         </div>
       </div>
+      
       <div className="max-w-screen-xl mx-auto px-4 pt-4 md:px-8">
+      <div className="max-w-md">
+                <h1 className="text-gray-800 text-xl font-extrabold sm:text-2xl">Find out nearby Blue collar workers</h1>
+                <p className="text-gray-600 mt-2">Use search box to filter workers by their catgory and location</p>
+            </div>
         <div className="items-start justify-between gap-x-4 py-4 border-b sm:flex">
           {/* Render Filter Options */}
           <div className="relative mt-6 sm:mt-0">

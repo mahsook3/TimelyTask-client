@@ -124,7 +124,7 @@ export default () => {
                 <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl">Sign up</h3>
                 <div className="">
             <img
-              src="https://floatui.com/logo.svg"
+              src={Logo}
               width={150}
               className="lg:hidden"
             />
@@ -199,6 +199,7 @@ export default () => {
                     required
                     className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:customOrange shadow-sm rounded-lg"
                   />
+                  <p>*Just give 10 digit of your phone number</p>
                 </div>
                 <div>
                   <label className="font-medium">Password</label>

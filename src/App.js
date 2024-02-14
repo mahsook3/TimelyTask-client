@@ -21,6 +21,7 @@ import RecipeScanner from './components/recipescanner/RecipeScanner';
 import DiscoverWorkers from './components/DiscoverWorkers';
 import DetailsTab from './components/DetailsTab';
 import PostWork from './components/PostWork';
+import RecivedWorks from './components/RecivedWorks';
 function App() {
   return (
     <div className='font-[Poppins]'>
@@ -48,6 +49,7 @@ function App() {
   path='/DiscoverWorkers'
   element={<DiscoverWorkers />}
 />
+<Route path='/recivedworks' element={<RecivedWorks />} />
 
           <Route path='*' element={<PageNotFound />} />
         </Routes>

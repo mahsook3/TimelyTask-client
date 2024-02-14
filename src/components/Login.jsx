@@ -54,7 +54,7 @@ const Login = () => {
             <div className="flex-1 flex items-center justify-center h-screen">
                 <div className="w-full max-w-md space-y-8 px-4 bg-white text-gray-600 sm:px-0">
                     <div className="">
-                        <img src="https://floatui.com/logo.svg" width={150} className="lg:hidden" />
+                        <img src={Logo} width={150} className="lg:hidden" />
                         <div className="mt-5 space-y-2">
                             <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl">Sign in</h3>
                             <p className="">Not have an account? <a href="javascript:void(0)"  onClick={() => navigate('/signup')} className="font-medium text-customOrange hover:text-customBlue">Create an account</a></p>
