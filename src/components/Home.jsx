@@ -127,7 +127,7 @@ const Home = () => {
                   New
                 </span>{" "}
                 <a
-                  href="https://TimelyTask.netlify.app/"
+                  href="https://timelytask.mahsook.tech/login"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm font-medium"
